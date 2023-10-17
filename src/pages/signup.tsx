@@ -1,8 +1,8 @@
 import { Header } from "@/components/Header"
-import { UsersList } from "@/components/UsersList"
-import Box from "@mui/material/Box"
+import { SignUpForm } from "@/components/SingUpForm"
+import { Box } from "@mui/material"
 
-export default function Home() {
+export default function SignUp() {
   return (
     <>
       <Header />
@@ -15,7 +15,7 @@ export default function Home() {
         }}
       >
         <main>
-          <UsersList />
+          <SignUpForm />
         </main>
       </Box>
     </>
