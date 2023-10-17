@@ -6,18 +6,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <main>
-          <UsersList />
-        </main>
-      </Box>
+      <UsersList />
     </>
   )
 }

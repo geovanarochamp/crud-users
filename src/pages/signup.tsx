@@ -14,9 +14,7 @@ export default function SignUp() {
           alignItems: "center",
         }}
       >
-        <main>
-          <SignUpForm />
-        </main>
+        <SignUpForm />
       </Box>
     </>
   )
