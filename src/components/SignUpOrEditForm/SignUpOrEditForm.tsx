@@ -10,7 +10,8 @@ import { SignUpFormSchemaValues } from "./types"
 import { useUsersStore } from "@/stores/useUsersStore"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { MaskedInput } from "../Input"
+import { MaskedInput } from "../MaskedInput"
+import { Input } from "../Input"
 
 interface SignUpOrEditFormProps {
   initialValues?: SignUpFormSchemaValues
@@ -72,23 +73,10 @@ export function SignUpOrEditForm({ initialValues }: SignUpOrEditFormProps) {
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           noValidate
         >
-          <TextField
-            id="name"
-            label="Nome completo (sem abreviações)"
-            variant="standard"
-            {...register("name")}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-          />
-          <TextField
-            id="email"
-            type="email"
-            label="E-mail"
-            variant="standard"
-            {...register("email")}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
+          <Input label="Nome completo (sem abreviações)" name="name" />
+
+          <Input type="email" label="E-mail" name="email" />
+
           <MaskedInput inputType="cpf" label="CPF" name="cpf" />
 
           <MaskedInput inputType="phone" label="Telefone" name="phone" />

@@ -1,45 +1,31 @@
-import { FormControl, TextField } from "@mui/material"
+import { TextField, TextFieldProps } from "@mui/material"
+import error from "next/error"
 import { useFormContext } from "react-hook-form"
-import { PatternFormat } from "react-number-format"
 
-enum InputTypeEnum {
-  CPF = "cpf",
-  PHONE = "phone",
-}
-
-interface InputProps {
-  inputType: "cpf" | "phone"
+type InputProps = TextFieldProps & {
   name: string
   label: string
 }
 
-export function MaskedInput({ inputType, name, label, ...rest }: InputProps) {
+export function Input({ name, label }: InputProps) {
   const {
-    setValue,
+    register,
     formState: { errors },
-    getValues,
   } = useFormContext()
-
-  const inputTypeConfig = {
-    [InputTypeEnum.CPF]: "###.###.###-##",
-    [InputTypeEnum.PHONE]: "(##) # ####-####",
-  }
   return (
-    <FormControl>
-      <PatternFormat
-        {...rest}
-        customInput={TextField}
-        variant="standard"
-        label={label}
-        mask="_"
-        format={inputTypeConfig[inputType]}
-        defaultValue={getValues(name)}
-        onValueChange={({ value }) => {
-          setValue(name, value)
-        }}
-        error={errors && !!errors[name]}
-        helperText={errors[name]?.message?.toString()}
-      />
-    </FormControl>
+    <TextField
+      label={label}
+      variant="standard"
+      {...register(name)}
+      error={!!errors[name]}
+      helperText={errors[name]?.message?.toString()}
+      sx={{
+        "& label.Mui-focused": {
+          color: "#009788",
+        },
+
+        "& .MuiInput-underline:after": { borderBottomColor: "#009788" },
+      }}
+    />
   )
 }
