@@ -9,8 +9,6 @@ Here's a brief intro about what you must do in order to start developing the pro
 ```shell
 git clone https://github.com/geovanarochamp/crud-users.git
 cd crud-users
-nvm install node
-nvm use 21
 npm i
 npm run dev
 
