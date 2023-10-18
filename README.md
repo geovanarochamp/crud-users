@@ -22,11 +22,8 @@ Open http://localhost:3000 in your browser to see the result.
 
 ### Built With
 
-React, NextJS, axios, useSWR, Zustand, Material UI, react-hook-form, zod.
+React, NextJS, axios, useSWR, Zustand, Material UI, react-hook-form, zod, react-number-format.
 
 ### Prerequisites
 
 To run this project, you will need to be on a Node version equal to or greater than 16.
-
-
-
