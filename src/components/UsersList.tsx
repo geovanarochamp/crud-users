@@ -7,37 +7,61 @@ import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import { useGetUsers } from "@/resources/api/hook"
 import CircularProgress from "@mui/material/CircularProgress"
-import { Box, Container, IconButton, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Typography,
+} from "@mui/material"
 import { Delete, Edit } from "@mui/icons-material"
 import { useUsersStore } from "@/stores/useUsersStore"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { User } from "@/resources/api/types"
 
 export function UsersList() {
   const { data: fetchedUsers, isLoading: isUsersLoading } = useGetUsers()
 
-  const { users, addUser, removeUser } = useUsersStore()
+  const { users, addUser, removeUser, isFirstLoad, setIsFirstLoad } =
+    useUsersStore()
 
-  const handleDeleteUser = (user: User) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [userToDelete, setUserToDelete] = useState({} as User)
+
+  const handleConfirmDeleteUser = (user: User) => {
     removeUser(user)
+    setIsDeleteDialogOpen(false)
   }
 
-  useEffect(() => {
-    if (fetchedUsers && users.length === 0) {
-      fetchedUsers.map((user) => {
-        addUser(user)
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchedUsers])
+  const handleDeleteUser = (user: User) => {
+    setUserToDelete(user)
+    setIsDeleteDialogOpen(true)
+  }
 
-  console.log(users)
+  const handleCloseDialog = () => {
+    setIsDeleteDialogOpen(false)
+  }
 
   const Cell = ({ label }: { label: string }) => (
     <TableCell sx={{ color: "#fff", fontWeight: "600" }} align="left">
       {label}
     </TableCell>
   )
+
+  useEffect(() => {
+    if (fetchedUsers && isFirstLoad) {
+      fetchedUsers.map((user) => {
+        addUser(user)
+        setIsFirstLoad(false)
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchedUsers])
 
   if (isUsersLoading) {
     return (
@@ -80,7 +104,7 @@ export function UsersList() {
               <TableBody>
                 {users?.map((user) => (
                   <TableRow
-                    key={user.name}
+                    key={user.cpf}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell align="left">{user.name}</TableCell>
@@ -88,7 +112,7 @@ export function UsersList() {
                     <TableCell align="left">{user.phone}</TableCell>
                     <TableCell align="left">{user.email}</TableCell>
                     <TableCell align="left">
-                      <IconButton>
+                      <IconButton href={`/edit/${user.cpf}`}>
                         <Edit
                           sx={{
                             "&:hover": {
@@ -101,7 +125,7 @@ export function UsersList() {
                         <Delete
                           sx={{
                             "&:hover": {
-                              color: "#dc2626",
+                              color: "#eb4a46",
                             },
                           }}
                         />
@@ -118,6 +142,30 @@ export function UsersList() {
           </Typography>
         )}
       </Box>
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-delete-user"
+      >
+        <DialogTitle>
+          Tem certeza que deseja excluir{" "}
+          <Typography variant="h6" sx={{ fontWeight: 600 }} component="span">
+            {`${userToDelete.name}?`}
+          </Typography>
+        </DialogTitle>
+
+        <DialogActions>
+          <Button sx={{ color: "#000000DE" }} onClick={handleCloseDialog}>
+            Cancelar
+          </Button>
+          <Button
+            onClick={() => handleConfirmDeleteUser(userToDelete)}
+            sx={{ color: "#eb4a46" }}
+          >
+            Excluir
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }

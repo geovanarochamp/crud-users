@@ -1,5 +1,5 @@
 import { Header } from "@/components/Header"
-import { SignUpForm } from "@/components/SingUpForm"
+import { SignUpOrEditForm } from "@/components/SignUpOrEditForm"
 import { Box } from "@mui/material"
 
 export default function SignUp() {
@@ -14,7 +14,7 @@ export default function SignUp() {
           alignItems: "center",
         }}
       >
-        <SignUpForm />
+        <SignUpOrEditForm />
       </Box>
     </>
   )
